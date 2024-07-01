@@ -424,7 +424,7 @@ export default {
   }
   ,video:{
     menu:"视频",
-    menuinfo:'Luam等 视频创作',
+    menuinfo:'Luma等 视频创作',
     descpls:'视频创作描述',
     lumaabout:"Luma 相关",
     lumaserver:"Luma 接口地址",
@@ -437,6 +437,12 @@ export default {
     submitSuccess:'已提交成功！',
     process:'视频生成中...',
     repeat:'重新获取',
+
+    pending:'状态:队列中',
+    processing:'状态:队列中',
+    download:'下载',
+    extend:'延展',
+
   }
 
 
