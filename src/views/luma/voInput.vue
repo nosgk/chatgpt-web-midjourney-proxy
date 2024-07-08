@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { NInput,NButton, useMessage,NTag ,NPopover} from 'naive-ui';
+import { NInput,NButton, useMessage,NTag ,NPopover,NSelect} from 'naive-ui';
 import {SvgIcon} from '@/components/common'
 import { FeedLumaTask, lumaFetch, mlog, upImg } from '@/api';
-import { homeStore } from '@/store';
+import { gptServerStore, homeStore } from '@/store';
 import { t } from '@/locales';
-import { LumaMedia } from '@/api/lumaStore';
+import { LumaMedia, lumaHkStore } from '@/api/lumaStore';
+import { sleep } from '@/api/suno';
 
 const luma= ref({ "aspect_ratio": "16:9", "expand_prompt": true,  "image_url": "",  "user_prompt": "" });
-const st= ref({isDo:false})
+const st= ref({isDo:false,version:'relax'})
 const ms = useMessage();
 const fsRef= ref() ;
 const exLuma= ref<LumaMedia>()
@@ -22,6 +23,7 @@ const vf=[{s:'width: 100%; height: 100%;',label:'1:1'}
 
 onMounted(() => {
     homeStore.setMyData({ms:ms})
+    st.value.version= gptServerStore.myData.IS_LUMA_PRO?'pro':'relax'
 });
 
 
@@ -39,11 +41,25 @@ const generate= async ()=>{
     try{
         let url= '/generations/';
         if(exLuma.value) url= `/generations/${exLuma.value.id}/extend`
+        //homeStore.myData.is_luma_pro?'/pro':''
+        //if(homeStore)
+        const is_luma_pro=homeStore.myData.is_luma_pro
+        if (is_luma_pro) url= '/pro'+url
         const d:any=  await lumaFetch(url, luma.value);
         mlog("d", d )
-        if(d.id ) FeedLumaTask(d.id )
-        else FeedLumaTask(d[0].id )
+        // if(d.id ) FeedLumaTask(d.id )
+        // else FeedLumaTask(d[0].id )
+        
+        const taskID= d.id??d[0].id
+        if( is_luma_pro ){
+            const hk= new lumaHkStore();
+            hk.save({id:taskID,isHK:true})
+        }
+       
+        
         ms.success( t('video.submitSuccess'))
+         await sleep(500)
+        FeedLumaTask(taskID)
     }catch(e){
         
     }
@@ -76,6 +92,29 @@ watch(()=>homeStore.myData.act, (n)=>{
         // cs.value.continue_at= Math.ceil(s.metadata.duration/2) 
     }
 });
+
+const isHK= computed(()=> {
+    const url= gptServerStore.myData.LUMA_SERVER.toLocaleLowerCase();
+    if(url!=''){
+     return (url.indexOf('hk')>-1 &&  url.indexOf('pro')==-1 ) ;
+    }
+   
+    return (homeStore.myData.session && homeStore.myData.session.isHk) ;
+    
+} );
+const saveMyDate=(is_pro:boolean)=>{
+    homeStore.setMyData({is_luma_pro: is_pro})
+    gptServerStore.setMyData({IS_LUMA_PRO: is_pro})
+}
+
+watch(()=>isHK.value , (n)=>    saveMyDate( n && st.value.version=='pro' ) ); 
+watch(()=>st.value.version , ()=>  saveMyDate(isHK.value && st.value.version=='pro' ) );
+
+const mvOption= [
+{label: '版本: relax, 价格实惠',value: 'relax'}
+,{label:'版本: pro, 快且无水印',value: 'pro'}
+ ]
+
 </script>
 
 <template>
@@ -112,6 +151,10 @@ watch(()=>homeStore.myData.act, (n)=>{
         </div>
             
     </div>
+
+     <div  class="pt-1" v-if="isHK">
+        <n-select v-model:value="st.version" :options="mvOption" size="small" />
+    </div>
     
     <div class="pt-1">
         <div class="flex justify-between  items-end">
@@ -127,7 +170,7 @@ watch(()=>homeStore.myData.act, (n)=>{
                   <NTag v-if=" exLuma|| luma.user_prompt!=''||luma.image_url!=''" type="success" size="small" round  ><span class="cursor-pointer" @click="clearInput()" >{{$t('video.clear')}}</span></NTag>
                 </div>
                 <div>
-                    <NButton :loading="st.isDo" type="primary" :disabled="!canPost" @click="generate()"><SvgIcon icon="ri:video-add-line"  /> {{$t('video.generate')}}</NButton> 
+                    <NButton  :loading="st.isDo" type="primary" :disabled="!canPost" @click="generate()"><SvgIcon icon="ri:video-add-line"  /> {{$t('video.generate')}}</NButton> 
                 </div>
             </div>
         </div>
