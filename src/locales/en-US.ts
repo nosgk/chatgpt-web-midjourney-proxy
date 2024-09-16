@@ -200,8 +200,28 @@ export default {
   "ideoserver": "Ideogram Server",
   "ideokeyPlaceholder": "API Key for Ideogram (optional)",
   "ideopls": "Image description prompts",
-  "nohead": "Excludes"
+  "nohead": "Excludes",
+
+  klingabout: 'Kling About',
+  klingserver: 'Kling API Address',
+  klingkeyPlaceholder: 'Kling API Key (optional)',
+  klingkey: 'Kling Key',
+  mode: 'Mode',
+  duration: 'Duration',
+  negative_prompt: 'Place text without objects here',
+  std: 'High Performance',
+  pro: 'High Quality',
+  needImg: 'Please upload a reference image for it to take effect!',
+  seed: 'Seed number 1~2147483647',
+  klingInfo: 'Description: <li>1. High Quality is 3.5 times the price</li> <li>2. 10s is 2 times the price</li> <li>3. The last frame must have a reference image to take effect</li>'
   
+  ,"camera_type": "Lens",
+  "cnull": "Smart Matching",
+  "down_back": "Move Down and Zoom Out",
+  "forward_up": "Push Forward and Move Up",
+  "right_turn_forward": "Turn Right and Push Forward",
+  "left_turn_forward": "Turn Left and Push Forward"
+
   },
   "mjset": {
     "server": "Server",
