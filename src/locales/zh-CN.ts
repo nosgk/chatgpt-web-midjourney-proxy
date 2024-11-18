@@ -344,6 +344,26 @@ export default {
     ,createFail:'生成失败'
     ,selecteff:'参考效果'
 
+    ,udioabout:'Udio 相关'
+    ,udiokeyPlaceholder:'Udio 的API Key 可不填'
+    ,udioserver:'Udio 接口地址'
+    ,ud_prompt:'提示词'
+    ,ud_prompt_pls:'提示词: 描述、曲风'
+    ,ud_ly_write:'自定义歌词'
+    ,ud_ly_auto:'智能歌词'
+    ,ud_ly_null:'纯音乐'
+    ,ud_v32:'实惠'
+    ,ud_v130:'时间长'
+    ,ud_info:'注意：<ul><li>1.udio-32 时长短</li><li>2.udio-130 价格是udio-32的2倍 </li><li>3.提示词内可以放风格、描述等</li></ul>'
+    ,ud_fail:"这首歌生成失败！"
+    ,ud_doing:"生成中无法播放"
+    ,ud_continuation:"后扩展"
+    ,ud_precede:"前扩展"
+
+    ,upImg2:'<span><b>上传图片</b><br/>该模型支持识图<br>注意：会有额外的图片费用<br/>格式: jpeg jpg png gif</span><p>支持拖拽</p> <p class="pt-2"><b>上传MP3 MP4</b> <br>会自动直接调用 whisper-1 模型<br>格式有：mp3 mp4 mpeg mpga m4a wav webm</p>'
+    ,rml_info:'注意：<ul><li>1.必须带图</li><li>2.模型只有一个 gen3a_turbo </li><li>3.10s的价格是5s的双倍</li></ul>'
+    ,rml_heng:'横屏'
+    ,rml_shu:'竖屏'
   },
 
 	draw: {
@@ -458,7 +478,7 @@ export default {
     ,nodata:'请先创作才有歌曲列表'
 
     ,menu:'音乐'
-    ,menuinfo:'Suno 音乐创作'
+    ,menuinfo:'Suno、Udio等音乐创作'
     ,server:'Suno 接口地址'
     ,serverabout:'Suno 相关'
     ,setOpenKeyPlaceholder:'Suno API 的相关KEY；可不填'

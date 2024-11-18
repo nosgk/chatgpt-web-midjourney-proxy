@@ -1,10 +1,18 @@
 # 功能升级日志
 
 #  计划 
+# 2.22.2
+- 😄 新增：支持ruanway 官方api
+- 🐞 修复：模型识图表示
+
+# 2.22.1
+- 😄 新增：超链定位tab 定位到可灵 https://vercel.ddaiai.com//#/video/index?tab=kling
+- 😄 新增：手机可使用 音乐
 
 # 2.21.10
 - 😄 新增：claude-3-5-sonnet-all 模型
 - 😄 新增：pika 3个视频效果
+- 😄 新增：支持 udio
 
 
 # 2.21.9
